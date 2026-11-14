@@ -1,1 +1,107 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorldSphere — Explore Everything</title>
+<style>
+:root{--bg:#080d1b;--panel:#111a2d;--muted:#94a3b8;--cyan:#55e6ed;--purple:#9c83ff;--white:#f4f7ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at 70% 0%,#17244a 0%,#080d1b 55%);color:var(--white);font-family:Arial,sans-serif;min-height:100vh}
+header{height:72px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #25314b;background:#080d1bdd;position:sticky;top:0;z-index:5}
+.logo{font-size:22px;font-weight:800;letter-spacing:-1px}.logo span{color:var(--cyan)}
+nav{display:flex;gap:22px}nav a{color:#b9c4d9;text-decoration:none;font-size:14px}
+nav a:hover{color:var(--cyan)}
+main{max-width:1150px;margin:auto;padding:55px 22px}
+.eyebrow{color:var(--cyan);letter-spacing:3px;font-size:11px;font-weight:bold}
+h1{font-size:clamp(40px,7vw,76px);line-height:1.05;letter-spacing:-3px;margin:18px 0}
+h1 span{background:linear-gradient(90deg,var(--cyan),var(--purple));background-clip:text;color:transparent}
+.intro{max-width:620px;color:var(--muted);font-size:17px;line-height:1.7}
+.search{display:flex;gap:10px;margin:30px 0;max-width:680px}
+input{min-width:0;flex:1;background:#111a2d;border:1px solid #34415e;color:white;padding:16px;border-radius:12px;font-size:15px}
+button{background:linear-gradient(110deg,#36dce5,#8c76ff);border:0;color:#07101d;font-weight:bold;padding:14px 20px;border-radius:11px;cursor:pointer}
+button:hover{filter:brightness(1.12)}
+.section-title{margin:55px 0 20px;font-size:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{background:linear-gradient(145deg,#17233c,#101729);border:1px solid #293854;border-radius:17px;padding:23px;min-height:170px;transition:.2s}
+.card:hover{transform:translateY(-4px);border-color:#55e6ed88}
+.card .emoji{font-size:29px}.card h3{margin:15px 0 8px}.card p{color:var(--muted);font-size:14px;line-height:1.6}
+.workspace{background:#111a2d;border:1px solid #293854;padding:24px;border-radius:17px;margin-top:20px}
+#result{color:#cbd5e1;line-height:1.7;white-space:pre-wrap;margin-top:15px}
+footer{padding:35px;text-align:center;color:#64748b;border-top:1px solid #25314b;font-size:13px;margin-top:70px}
+@media(max-width:650px){nav{gap:10px}nav a{font-size:12px}header{padding:0 16px}.search{flex-direction:column}h1{letter-spacing:-2px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">World<span>Sphere.</span></div>
+ <nav>
+  <a href="#home">Home</a>
+  <a href="#explore">Explore</a>
+  <a href="#knowledge">Knowledge</a>
+  <a href="#tools">Tools</a>
+ </nav>
+</header>
+<main id="home">
+ <div class="eyebrow">ONE WORLD. INFINITE POSSIBILITIES.</div>
+ <h1>Discover more.<br><span>Do more.</span> Be more.</h1>
+ <p class="intro">Welcome to WorldSphere — your gateway to knowledge, discovery, creativity and opportunities across the world.</p>
+ <div class="search">
+  <input id="search" placeholder="What would you like to discover?">
+  <button onclick="searchWorld()">Explore ↗</button>
+ </div>
+ <div id="result"></div>
+ <h2 class="section-title" id="explore">Explore the World</h2>
+ <div class="grid">
+  <div class="card"><div class="emoji">🌍</div><h3>World Explorer</h3><p>Discover countries, cultures, landmarks and fascinating places.</p></div>
+  <div class="card"><div class="emoji">🧠</div><h3>World AI</h3><p>Your future intelligent assistant for ideas, questions and problem-solving.</p></div>
+  <div class="card" id="knowledge"><div class="emoji">🔬</div><h3>Knowledge Hub</h3><p>Explore science, technology, history, education and innovation.</p></div>
+  <div class="card"><div class="emoji">🚀</div><h3>Opportunities</h3><p>Discover learning, career and business opportunities.</p></div>
+  <div class="card" id="tools"><div class="emoji">🛠️</div><h3>Everyday Toolkit</h3><p>Useful tools designed to make everyday tasks easier.</p></div>
+  <div class="card"><div class="emoji">🌐</div><h3>World Connect</h3><p>A future space for sharing discoveries, knowledge and ideas.</p></div>
+ </div>
+ <h2 class="section-title">Your Everyday Toolkit</h2>
+ <div class="workspace">
+  <h3>✍️ Word Counter</h3>
+  <textarea id="words" placeholder="Start typing here..." style="width:100%;height:110px;background:#080d1b;color:white;border:1px solid #34415e;border-radius:10px;padding:13px;font:15px Arial" oninput="countWords()"></textarea>
+  <p id="count" style="color:var(--cyan)">0 words · 0 characters</p>
+ </div>
+ <div class="workspace">
+  <h3>⏱️ Focus Timer</h3>
+  <div id="timer" style="font-size:42px;font-weight:bold;margin:15px 0">25:00</div>
+  <button onclick="startTimer()">Start</button>
+  <button onclick="pauseTimer()" style="background:#293854;color:white">Pause</button>
+  <button onclick="resetTimer()" style="background:#293854;color:white">Reset</button>
+ </div>
+</main>
+<footer>WorldSphere © 2026 · Explore beyond boundaries.</footer>
+<script>
+function searchWorld(){
+ const q=document.getElementById('search').value.trim();
+ const r=document.getElementById('result');
+ if(!q){r.textContent="Type something you'd like to explore first.";return}
+ r.textContent="Your discovery: "+q+"\n\nWorldSphere's search and live AI services are coming in a future development phase. This first version is your starting point.";
+}
+function countWords(){
+ const v=document.getElementById('words').value;
+ const words=v.trim()?v.trim().split(/\s+/).length:0;
+ document.getElementById('count').textContent=words+" words · "+v.length+" characters";
+}
+let seconds=1500,interval=null;
+function displayTime(){
+ document.getElementById('timer').textContent=
+ String(Math.floor(seconds/60)).padStart(2,'0')+":"+String(seconds%60).padStart(2,'0');
+}
+function startTimer(){
+ if(interval)return;
+ interval=setInterval(()=>{
+  if(seconds>0){seconds--;displayTime()}
+  else{clearInterval(interval);interval=null;alert("Focus session complete!")}
+ },1000);
+}
+function pauseTimer(){clearInterval(interval);interval=null}
+function resetTimer(){pauseTimer();seconds=1500;displayTime()}
+</script>
+</body>
+</html>
